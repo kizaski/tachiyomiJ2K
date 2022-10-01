@@ -3,6 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_dictionary"
+        android:icon="@drawable/ic_translation"
+        android:title="@string/action_dictionary"
+        app:iconTint="?attr/colorOnPrimary"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_ocr"
+        android:icon="@drawable/ic_ocr"
+        android:title="@string/action_ocr"
+        app:iconTint="?attr/colorOnPrimary"
+        app:showAsAction="ifRoom" />
+        
+    <item
         android:id="@+id/action_shift_double_page"
         android:icon="@drawable/ic_page_next_outline_24dp"
         android:title="@string/shift_one_page_over"

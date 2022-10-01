@@ -473,4 +473,16 @@ class PreferencesHelper(val context: Context) {
     fun coverColors() = flowPrefs.getStringSet(Keys.coverColors, emptySet())
 
     fun useStaggeredGrid() = flowPrefs.getBoolean("use_staggered_grid", false)
+
+    fun ankiDeckName() = flowPrefs.getString(Keys.ankiDeckName, "")
+
+    fun ankiModelName() = flowPrefs.getString(Keys.ankiModelName, "")
+
+    fun ankiSentenceExportFields() = prefs.getStringSet(Keys.ankiSentenceExportFields, setOf())!!
+
+    fun ankiWordExportFields() = prefs.getStringSet(Keys.ankiWordExportFields, setOf())!!
+
+    fun ankiReadingExportFields() = prefs.getStringSet(Keys.ankiReadingExportFields, setOf())!!
+
+    fun ankiMeaningExportFields() = prefs.getStringSet(Keys.ankiMeaningExportFields, setOf())!!
 }

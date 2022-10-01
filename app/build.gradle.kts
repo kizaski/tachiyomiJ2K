@@ -32,7 +32,7 @@ android {
     defaultConfig {
         minSdk = AndroidVersions.minSdk
         targetSdk = AndroidVersions.targetSdk
-        applicationId = "eu.kanade.tachiyomi"
+        applicationId = "com.getraid.tachiyomiocr"
         versionCode = AndroidVersions.versionCode
         versionName = AndroidVersions.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -143,6 +143,7 @@ dependencies {
 
     implementation("com.google.firebase:firebase-core:21.1.0")
     implementation("com.google.firebase:firebase-analytics-ktx:21.1.0")
+    implementation("androidx.room:room-common:2.4.3")
 
     val lifecycleVersion = "2.4.0-rc01"
     kapt("androidx.lifecycle:lifecycle-compiler:$lifecycleVersion")
@@ -271,6 +272,15 @@ dependencies {
 
     // Android Chart
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+     // OCR
+    implementation("cz.adaptech:tesseract4android:3.0.0")
+    implementation("androidx.room:room-runtime:2.3.0")
+    kapt("androidx.room:room-compiler:2.3.0")
+    implementation("androidx.room:room-ktx:2.3.0")
+    implementation("com.github.rattlehead15:kaku:master-SNAPSHOT")
+    implementation("com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava")
+    implementation("com.github.ankidroid:Anki-Android:api-v1.1.0")
 }
 
 
