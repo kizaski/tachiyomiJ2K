@@ -33,6 +33,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.transition.addListener
+import androidx.core.view.*
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -78,6 +79,9 @@ import eu.kanade.tachiyomi.ui.reader.settings.PageLayout
 import eu.kanade.tachiyomi.ui.reader.settings.ReaderBottomButton
 import eu.kanade.tachiyomi.ui.reader.settings.ReadingModeType
 import eu.kanade.tachiyomi.ui.reader.settings.TabbedReaderSettingsSheet
+import eu.kanade.tachiyomi.ui.reader.translator.OCRManager
+import eu.kanade.tachiyomi.ui.reader.translator.OCRRectangleView
+import eu.kanade.tachiyomi.ui.reader.translator.OCRTranslationSheet
 import eu.kanade.tachiyomi.ui.reader.viewer.BaseViewer
 import eu.kanade.tachiyomi.ui.reader.viewer.pager.L2RPagerViewer
 import eu.kanade.tachiyomi.ui.reader.viewer.pager.PagerViewer
@@ -86,6 +90,8 @@ import eu.kanade.tachiyomi.ui.reader.viewer.pager.VerticalPagerViewer
 import eu.kanade.tachiyomi.ui.reader.viewer.webtoon.WebtoonViewer
 import eu.kanade.tachiyomi.ui.security.SecureActivityDelegate
 import eu.kanade.tachiyomi.ui.webview.WebViewActivity
+import eu.kanade.tachiyomi.util.lang.launchIO
+import eu.kanade.tachiyomi.util.lang.launchUI
 import eu.kanade.tachiyomi.util.storage.getUriCompat
 import eu.kanade.tachiyomi.util.system.contextCompatColor
 import eu.kanade.tachiyomi.util.system.dpToPx
@@ -477,12 +483,42 @@ class ReaderActivity : BaseRxActivity<ReaderPresenter>() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.action_dictionary -> {
+                OCRTranslationSheet(this).show()
+            }
+            R.id.action_ocr -> {
+                getOCRRect()
+            }
             R.id.action_shift_double_page -> {
                 shiftDoublePages()
             }
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+    private fun getOCRRect() {
+        toggleMenu()
+        val ocrRectangleView = findViewById<OCRRectangleView>(R.id.ocr_rectangle)
+        ocrRectangleView.isVisible = true
+        ocrRectangleView.longTapCallback = {
+            ocrRectangleView.isVisible = false
+            toast("Processing OCR...")
+            val b = Bitmap.createBitmap(
+                viewer!!.getView().drawToBitmap(Bitmap.Config.ARGB_8888),
+                it.left.toInt(),
+                it.top.toInt(),
+                it.width().toInt(),
+                it.height().toInt()
+            )
+            launchIO { startOCR(b) }
+        }
+    }
+
+    private fun startOCR(b: Bitmap) {
+        val ocrManager = OCRManager(applicationContext)
+        val result = ocrManager.recognize(b)
+        val activity = this
+        launchUI { OCRTranslationSheet(activity, result).show() }
     }
 
     private fun shiftDoublePages() {

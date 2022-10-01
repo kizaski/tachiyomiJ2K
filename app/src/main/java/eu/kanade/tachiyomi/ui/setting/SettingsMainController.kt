@@ -1,12 +1,14 @@
 package eu.kanade.tachiyomi.ui.setting
-
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.preference.PreferenceScreen
+import com.ichi2.anki.api.AddContentApi.READ_WRITE_PERMISSION
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import eu.kanade.tachiyomi.R
+import eu.kanade.tachiyomi.ui.base.controller.requestPermissionsSafe
 import eu.kanade.tachiyomi.ui.main.FloatingSearchInterface
 import eu.kanade.tachiyomi.ui.setting.search.SettingsSearchController
 import eu.kanade.tachiyomi.util.system.getResourceColor
@@ -79,6 +81,18 @@ class SettingsMainController : SettingsController(), FloatingSearchInterface {
             onClick { navigateTo(SettingsSecurityController()) }
         }
         preference {
+            iconRes = R.drawable.ic_ocr_24dp
+            iconTint = tintColor
+            titleRes = R.string.pref_category_ocr
+            onClick {
+                if (context.checkSelfPermission(READ_WRITE_PERMISSION) != PERMISSION_GRANTED) {
+                    requestPermissionsSafe(arrayOf(READ_WRITE_PERMISSION), 444)
+                } else {
+                    navigateTo(SettingsOCRController())
+                }
+            }
+        }
+        preference {
             iconRes = R.drawable.ic_code_24dp
             iconTint = tintColor
             titleRes = R.string.advanced
@@ -90,6 +104,12 @@ class SettingsMainController : SettingsController(), FloatingSearchInterface {
         inflater.inflate(R.menu.settings_main, menu)
         // Change hint to show global search.
         activityBinding?.searchToolbar?.searchQueryHint = applicationContext?.getString(R.string.search_settings)
+    }
+    
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == 444 && grantResults[0] == PERMISSION_GRANTED) {
+            navigateTo(SettingsOCRController())
+        }
     }
 
     override fun onActionViewExpand(item: MenuItem?) {

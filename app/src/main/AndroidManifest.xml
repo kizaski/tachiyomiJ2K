@@ -23,6 +23,7 @@
         tools:ignore="QueryAllPackagesPermission" />
 
     <application
+        tools:replace="android:allowBackup"
         android:name=".App"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_rules"
@@ -263,5 +264,8 @@
             android:value="true" />
 
     </application>
+      <queries>
+        <package android:name="com.ichi2.anki" />
+    </queries>
 
 </manifest>
