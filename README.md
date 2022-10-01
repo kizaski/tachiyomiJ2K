@@ -8,6 +8,31 @@ TachiyomiJ2K is a free and open source manga reader for Android 6.0 and above. B
 
 ![screenshots of app](./.github/readme-images/screens.gif)
 
+
+## About this Fork
+I was looking into this app and found it quite nice. I'm not much of a manga reader myself, but thought this could be a superb opportunity to improve my japanese.  
+...or at least so I thought. Japanese manga providers are a thing, but everything is either written exclusively in kanji or is tedious to translate *on the fly*.  
+So I searched for a bit and found [this ocr repository](https://github.com/Rattlehead15/tachiyomiOCR).  
+But it is outdated and very troublesome to merge, so I thought - f**k it, I'll just reimplement it again and hope I can manage to keep it updated enough, so that it doesn't break.  
+
+I chose the preexisting J2K fork as a base, since the original version had many changes which were even worse to deal with.  
+Plus the design is also much cleaner!
+
+**Attention**: This requires AnkiDroid to be installed on your device. Later on I'll maybe make it optional.  
+
+Current Status:  
+- [x] Compilable
+- [x] Gets the correct permissions
+- [x] Gets into settings page
+- [x] Shows the settings
+- [ ] Settings fully working
+- [x] Checks if Anki is installed
+- [ ] OCR Button is visible (currently is is available but with a white icon on white background)
+- [ ] OCR works
+- [ ] Anki fully integrated
+
+**Overall Status**: Currently not working ❌  
+
 ## Features
 
 Features of Tachiyomi include:
