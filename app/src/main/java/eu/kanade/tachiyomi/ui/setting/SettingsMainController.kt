@@ -88,8 +88,6 @@ class SettingsMainController : SettingsController(), FloatingSearchInterface {
             iconTint = tintColor
             titleRes = R.string.pref_category_ocr
             onClick {
-                // replace in ContextExtensions.kt i think?
-
                 if (context.checkSelfPermission(READ_WRITE_PERMISSION) != PERMISSION_GRANTED) {
                     checkAnkiPermissions(READ_WRITE_PERMISSION, 444)
                 } else {

@@ -1050,7 +1050,8 @@
     <string name="pref_anki_deck_name">Anki Export Deck</string>
     <string name="pref_anki_model_name">Anki Export Note Type</string>
     <string name="anki_fields_routing">Export Field Routing</string>
-    <string name="anki_missing">This app/feature requires the AnkiDroid app to be installed. Please download it externally, open it at least once and agree to the permissions there. Then head back here. Thanks :) </string>
+    <string name="anki_missing">AnkiDroid App missing</string>
+    <string name="anki_missing_descr">This app/feature requires the AnkiDroid app to be installed. Please download it externally, open it at least once and agree to the permissions there. Then head back here. Thanks :) </string>
 
     <!-- Miscellaneous -->
     <string name="add">Add</string>

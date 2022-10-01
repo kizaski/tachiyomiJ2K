@@ -710,8 +710,8 @@ fun Controller.checkAnkiPermissions(
     val context = view?.context
     if (context != null && !isPackageInstalled("com.ichi2.anki", context.packageManager)) {
         activity.materialAlertDialog()
-            .setTitle(R.string.all_files_permission_required)
-            .setMessage(R.string.anki_missing).show()
+            .setTitle(R.string.anki_missing)
+            .setMessage(R.string.anki_missing_descr).show()
         return
     }
 
