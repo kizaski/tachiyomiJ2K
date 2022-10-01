@@ -6,6 +6,7 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PackageInfoFlags
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
@@ -25,25 +26,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.math.MathUtils
 import androidx.core.net.toUri
-import androidx.core.view.ScrollingView
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.*
 import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
-import androidx.core.view.doOnLayout
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
-import androidx.core.view.updatePaddingRelative
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bluelinelabs.conductor.Controller
-import com.bluelinelabs.conductor.ControllerChangeHandler
-import com.bluelinelabs.conductor.ControllerChangeType
-import com.bluelinelabs.conductor.Router
-import com.bluelinelabs.conductor.RouterTransaction
+import com.bluelinelabs.conductor.*
 import eu.kanade.tachiyomi.R
 import eu.kanade.tachiyomi.data.preference.PreferencesHelper
 import eu.kanade.tachiyomi.databinding.MainActivityBinding
@@ -56,20 +48,14 @@ import eu.kanade.tachiyomi.ui.main.MainActivity
 import eu.kanade.tachiyomi.ui.main.TabbedInterface
 import eu.kanade.tachiyomi.ui.manga.MangaDetailsController
 import eu.kanade.tachiyomi.ui.setting.SettingsController
-import eu.kanade.tachiyomi.util.system.ImageUtil
-import eu.kanade.tachiyomi.util.system.dpToPx
-import eu.kanade.tachiyomi.util.system.getResourceColor
-import eu.kanade.tachiyomi.util.system.ignoredSystemInsets
-import eu.kanade.tachiyomi.util.system.materialAlertDialog
-import eu.kanade.tachiyomi.util.system.rootWindowInsetsCompat
-import eu.kanade.tachiyomi.util.system.toInt
-import eu.kanade.tachiyomi.util.system.toast
+import eu.kanade.tachiyomi.util.system.*
 import eu.kanade.tachiyomi.widget.StatefulNestedScrollView
 import uy.kohesive.injekt.injectLazy
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import android.content.pm.PackageManager.PERMISSION_GRANTED as pm
 
 fun Controller.setOnQueryTextChangeListener(
     searchView: SearchView?,
@@ -701,6 +687,42 @@ fun Controller.setAppBarBG(value: Float, includeTabView: Boolean = false) {
                     invColor,
                 ),
             )
+        }
+    }
+}
+
+fun Controller.isPackageInstalled(packageName: String, packageManager: PackageManager): Boolean {
+    return try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageManager.getPackageInfo(packageName, PackageInfoFlags.of(0))
+        } else { packageManager.getPackageInfo(packageName, 0) }
+        true
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
+    }
+}
+
+fun Controller.checkAnkiPermissions(
+    permission: String,
+    requestCode: Int,
+) {
+    val activity = activity ?: return
+    val context = view?.context
+    if (context != null && !isPackageInstalled("com.ichi2.anki", context.packageManager)) {
+        activity.materialAlertDialog()
+            .setTitle(R.string.all_files_permission_required)
+            .setMessage(R.string.anki_missing).show()
+        return
+    }
+
+    if (ContextCompat.checkSelfPermission(activity, permission) != pm) {
+        val strAr2: Array<String> = arrayOf(permission)
+        if (ContextCompat.checkSelfPermission(
+                activity,
+                permission,
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(strAr2, requestCode)
         }
     }
 }

@@ -7,7 +7,6 @@ plugins {
     id(Plugins.kotlinParcelize)
     id(Plugins.kotlinSerialization)
     id("com.google.android.gms.oss-licenses-plugin")
-    kotlin("kapt")
     id(Plugins.googleServices) apply false
 }
 
@@ -144,6 +143,7 @@ dependencies {
 
     implementation("com.google.firebase:firebase-core:21.1.0")
     implementation("com.google.firebase:firebase-analytics-ktx:21.1.0")
+    implementation("androidx.room:room-common:2.4.3")
 
     val lifecycleVersion = "2.4.0-rc01"
     kapt("androidx.lifecycle:lifecycle-compiler:$lifecycleVersion")

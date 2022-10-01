@@ -12,5 +12,5 @@ data class EntryOptimized(
     val meanings: String?,
     val pos: String?,
     val priorities: String?,
-    val primaryEntry: Boolean?
+    val primaryEntry: Boolean?,
 )

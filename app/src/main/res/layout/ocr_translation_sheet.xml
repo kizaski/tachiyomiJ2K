@@ -48,7 +48,7 @@
             android:id="@+id/lookupButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:contentDescription="@string/action_search"
+            android:contentDescription="@string/search_suggestions"
             app:srcCompat="@drawable/ic_search_24dp" />
 
     </TableRow>

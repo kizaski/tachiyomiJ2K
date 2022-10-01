@@ -4,16 +4,18 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.preference.PreferenceScreen
-import com.ichi2.anki.api.AddContentApi.READ_WRITE_PERMISSION
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
+import com.ichi2.anki.api.AddContentApi.READ_WRITE_PERMISSION
 import eu.kanade.tachiyomi.R
-import eu.kanade.tachiyomi.ui.base.controller.requestPermissionsSafe
+import eu.kanade.tachiyomi.data.preference.PreferencesHelper
 import eu.kanade.tachiyomi.ui.main.FloatingSearchInterface
 import eu.kanade.tachiyomi.ui.setting.search.SettingsSearchController
 import eu.kanade.tachiyomi.util.system.getResourceColor
 import eu.kanade.tachiyomi.util.view.activityBinding
+import eu.kanade.tachiyomi.util.view.checkAnkiPermissions
 import eu.kanade.tachiyomi.util.view.withFadeTransaction
+import uy.kohesive.injekt.injectLazy
 
 class SettingsMainController : SettingsController(), FloatingSearchInterface {
 
@@ -22,6 +24,7 @@ class SettingsMainController : SettingsController(), FloatingSearchInterface {
     }
 
     override fun setupPreferenceScreen(screen: PreferenceScreen) = with(screen) {
+        val preferences: PreferencesHelper by injectLazy()
         titleRes = R.string.settings
 
         val tintColor = context.getResourceColor(R.attr.colorSecondary)
@@ -85,8 +88,10 @@ class SettingsMainController : SettingsController(), FloatingSearchInterface {
             iconTint = tintColor
             titleRes = R.string.pref_category_ocr
             onClick {
+                // replace in ContextExtensions.kt i think?
+
                 if (context.checkSelfPermission(READ_WRITE_PERMISSION) != PERMISSION_GRANTED) {
-                    requestPermissionsSafe(arrayOf(READ_WRITE_PERMISSION), 444)
+                    checkAnkiPermissions(READ_WRITE_PERMISSION, 444)
                 } else {
                     navigateTo(SettingsOCRController())
                 }
@@ -105,7 +110,7 @@ class SettingsMainController : SettingsController(), FloatingSearchInterface {
         // Change hint to show global search.
         activityBinding?.searchToolbar?.searchQueryHint = applicationContext?.getString(R.string.search_settings)
     }
-    
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == 444 && grantResults[0] == PERMISSION_GRANTED) {
             navigateTo(SettingsOCRController())

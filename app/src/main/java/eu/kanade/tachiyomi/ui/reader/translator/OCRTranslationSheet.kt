@@ -20,7 +20,7 @@ import eu.kanade.tachiyomi.data.preference.PreferencesHelper
 import eu.kanade.tachiyomi.databinding.DictionaryEntryBinding
 import eu.kanade.tachiyomi.databinding.OcrResultCharacterBinding
 import eu.kanade.tachiyomi.databinding.OcrTranslationSheetBinding
-import eu.kanade.tachiyomi.util.lang.launchUI
+import eu.kanade.tachiyomi.util.system.launchUI
 import java.util.*
 import java.util.Collections.rotate
 import kotlin.collections.HashSet
@@ -181,8 +181,8 @@ class OCRTranslationSheet(activity: Activity, private val ocrResult: List<List<S
                 { getDictPriority(it) },
                 { 0 - it.kanji!!.length },
                 { getEntryPriority(it) },
-                { getPriority(it) }
-            )
+                { getPriority(it) },
+            ),
         )
     }
 

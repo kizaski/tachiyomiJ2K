@@ -477,9 +477,9 @@ class PreferencesHelper(val context: Context) {
     fun ankiDeckName() = flowPrefs.getString(Keys.ankiDeckName, "")
 
     fun ankiModelName() = flowPrefs.getString(Keys.ankiModelName, "")
-    
+
     fun ankiSentenceExportFields() = prefs.getStringSet(Keys.ankiSentenceExportFields, setOf())!!
-    
+
     fun ankiWordExportFields() = prefs.getStringSet(Keys.ankiWordExportFields, setOf())!!
 
     fun ankiReadingExportFields() = prefs.getStringSet(Keys.ankiReadingExportFields, setOf())!!

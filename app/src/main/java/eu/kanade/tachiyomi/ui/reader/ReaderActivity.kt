@@ -90,8 +90,6 @@ import eu.kanade.tachiyomi.ui.reader.viewer.pager.VerticalPagerViewer
 import eu.kanade.tachiyomi.ui.reader.viewer.webtoon.WebtoonViewer
 import eu.kanade.tachiyomi.ui.security.SecureActivityDelegate
 import eu.kanade.tachiyomi.ui.webview.WebViewActivity
-import eu.kanade.tachiyomi.util.lang.launchIO
-import eu.kanade.tachiyomi.util.lang.launchUI
 import eu.kanade.tachiyomi.util.storage.getUriCompat
 import eu.kanade.tachiyomi.util.system.contextCompatColor
 import eu.kanade.tachiyomi.util.system.dpToPx
@@ -508,7 +506,7 @@ class ReaderActivity : BaseRxActivity<ReaderPresenter>() {
                 it.left.toInt(),
                 it.top.toInt(),
                 it.width().toInt(),
-                it.height().toInt()
+                it.height().toInt(),
             )
             launchIO { startOCR(b) }
         }
