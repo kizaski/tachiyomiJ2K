@@ -23,7 +23,6 @@ class SettingsOCRController : SettingsController() {
                 titleRes = R.string.pref_anki_deck_name
                 entries = api.deckList.values.toTypedArray().toList()
                 entryValues = api.deckList.values.toTypedArray().toList()
-                summary = "%s"
             }
 
             listPreference(activity) {
@@ -31,7 +30,6 @@ class SettingsOCRController : SettingsController() {
                 titleRes = R.string.pref_anki_model_name
                 entries = api.modelList.values.toTypedArray().toList()
                 entryValues = api.modelList.values.toTypedArray().toList()
-                summary = "%s"
             }
 
             preferenceCategory {
