@@ -18,6 +18,7 @@ class OCRManager(context: Context) {
             tessdata.mkdirs()
             copyAssetFolderToFolder(context, "tessdata", tessdata)
         }
+        copyAssetFolderToFolder(context, "tessdata", tessdata)
         api = TessBaseAPI()
         api.init(dir.path + "/", "jpn", TessBaseAPI.OEM_LSTM_ONLY)
         api.setDebug(true)
