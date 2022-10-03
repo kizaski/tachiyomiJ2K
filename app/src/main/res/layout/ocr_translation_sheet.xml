@@ -26,6 +26,22 @@
         </LinearLayout>
     </HorizontalScrollView>
 
+    <!-- Quick hack to at least have a method to use the ocr -->
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/copyToClipboard"
+            android:layout_width="160dp"
+
+            android:layout_height="match_parent"
+            android:text="Copy to clipboard"
+            tools:text="Copy to clipboard"
+            />
+    </TableRow>
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -75,10 +91,12 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
+
     <FrameLayout
         android:id="@+id/dictNoResults"
         android:layout_width="match_parent"
         android:layout_height="240dp">
+
 
         <TextView
             android:layout_width="match_parent"
