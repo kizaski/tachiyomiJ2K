@@ -2,10 +2,13 @@ package eu.kanade.tachiyomi.ui.reader.translator
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.room.Room
 import ca.fuwafuwa.kaku.DB_JMDICT_NAME
@@ -45,9 +48,17 @@ class OCRTranslationSheet(activity: Activity, private val ocrResult: List<List<S
             butt.character.setOnClickListener { launchUI { searchText(ocrResultText, i) } }
             butt.character.setOnLongClickListener { launchUI { replaceWithNext(it as TextView, i) }; true }
         }
+        binding.copyToClipboard.setOnClickListener { copyToClipboard() }
+
         val scale = context.resources.displayMetrics.density
         val pixels = (76 * scale + 0.5f)
         behavior.peekHeight = pixels.toInt()
+    }
+
+    private fun copyToClipboard() {
+        var myClipboard = getSystemService(context!!, ClipboardManager::class.java) as ClipboardManager
+        val clip: ClipData = ClipData.newPlainText(null, ocrResultText)
+        myClipboard.setPrimaryClip(clip)
     }
 
     private fun replaceWithNext(symbol: TextView, i: Int) {
@@ -59,7 +70,9 @@ class OCRTranslationSheet(activity: Activity, private val ocrResult: List<List<S
         behavior.state = STATE_EXPANDED
         val imm: InputMethodManager = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
-        val result = db.entryOptimizedDao().findByName(text[index].toString() + "%")
+        // TODO: Fix dict lookup
+        // val result = db.entryOptimizedDao().findByName(text[index].toString() + "%")
+        val result = listOf<EntryOptimized>()
         binding.entriesLayout.removeAllViews()
         populateResults(rankResults(getMatchedEntries(text, index, result)))
     }
