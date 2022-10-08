@@ -1,4 +1,6 @@
+import org.gradle.kotlin.dsl.support.unzipTo
 import java.io.ByteArrayOutputStream
+import java.util.zip.ZipFile
 
 plugins {
     id(Plugins.androidApplication)
@@ -308,6 +310,17 @@ tasks {
     }
 
     preBuild {
+        // Made this workaround to bypass database corruption through line-ending conversions by different git clients, etc...
+        // Copies everything from AssetFiles.zip into the assets folder.
+        val assetFilesZip="AssetFiles.zip"
+        var outputDir="/app/src/main/assets/"
+        val cwd="$buildDir+/../../"
+
+        if(!File("$cwd/$outputDir/tessdata").exists())
+            unzipTo(File("$cwd/$outputDir"),File("$cwd/$assetFilesZip"))
+
         dependsOn(formatKotlin, copyHebrewStrings)
     }
+
+
 }
