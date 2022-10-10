@@ -70,9 +70,7 @@ class OCRTranslationSheet(activity: Activity, private val ocrResult: List<List<S
         behavior.state = STATE_EXPANDED
         val imm: InputMethodManager = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
-        // TODO: Fix dict lookup
-        // val result = db.entryOptimizedDao().findByName(text[index].toString() + "%")
-        val result = listOf<EntryOptimized>()
+        val result = db.entryOptimizedDao().findByName(text[index].toString() + "%")
         binding.entriesLayout.removeAllViews()
         populateResults(rankResults(getMatchedEntries(text, index, result)))
     }

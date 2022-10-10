@@ -27,15 +27,15 @@ Current Status:
 - [x] Gets the correct permissions
 - [x] Gets into settings page
 - [x] Shows the settings
-- [ ] Settings fully working
 - [x] Checks if Anki is installed
 - [x] OCR Button is visible (needs check for white/dark mode)
 - [x] OCR works
-- [ ] Word lookup works
+- [x] Word lookup works
+- [ ] Settings fully working
 - [ ] Anki fully integrated
 - [ ] Redesign UI / interaction (annoying to access ocr)
 
-**Overall Status**: Currently kind of working, but missing lookup 🔜✔️
+**Overall Status**: ✔️ (Anki integration & Settings don't work yet)
 
 Once a working status is achieved, a build will be released under the [releases page](https://github.com/getraid/tachiyomiJ2K-OCR/releases).
 ## Features
