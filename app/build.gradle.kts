@@ -277,9 +277,9 @@ dependencies {
 
      // OCR
     implementation("cz.adaptech:tesseract4android:3.0.0")
-    implementation("androidx.room:room-runtime:2.3.0")
-    kapt("androidx.room:room-compiler:2.3.0")
-    implementation("androidx.room:room-ktx:2.3.0")
+    implementation("androidx.room:room-runtime:2.4.3")
+    kapt("androidx.room:room-compiler:2.4.3")
+    implementation("androidx.room:room-ktx:2.4.3")
     implementation("com.github.rattlehead15:kaku:master-SNAPSHOT")
     implementation("com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava")
     implementation("com.github.ankidroid:Anki-Android:api-v1.1.0")
