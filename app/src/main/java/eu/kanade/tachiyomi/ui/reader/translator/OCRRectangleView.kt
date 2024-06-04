@@ -148,6 +148,7 @@ class OCRRectangleView(context: Context, attrs: AttributeSet? = null) : View(con
                             invalidate()
                             return true
                         }
+                        else -> false
                     }
                     rectOCR.offset(x2 - x1, y2 - y1)
                     x1 = x2
