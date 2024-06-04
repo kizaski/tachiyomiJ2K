@@ -123,7 +123,7 @@ class OCRRectangleView(context: Context, attrs: AttributeSet? = null) : View(con
                     if (!hasMoved && PointF(x2 - x0, y2 - y0).length() > width / 30) {
                         hasMoved = true
                     }
-                    when (moving) {
+                    val mov = when (moving) {
                         MovingCorner.TOP_LEFT -> {
                             rectOCR.top = min(y2, rectOCR.bottom)
                             rectOCR.left = min(x2, rectOCR.right)
@@ -153,7 +153,7 @@ class OCRRectangleView(context: Context, attrs: AttributeSet? = null) : View(con
                     x1 = x2
                     y1 = y2
                     invalidate()
-                    true
+                    mov
                 }
                 ACTION_UP -> {
                     moving = null
