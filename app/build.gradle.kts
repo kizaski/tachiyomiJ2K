@@ -1,4 +1,6 @@
+import org.gradle.kotlin.dsl.support.unzipTo
 import java.io.ByteArrayOutputStream
+
 
 plugins {
     id(Plugins.androidApplication)
@@ -33,7 +35,7 @@ android {
     defaultConfig {
         minSdk = AndroidVersions.minSdk
         targetSdk = AndroidVersions.targetSdk
-        applicationId = "eu.kanade.tachiyomi"
+        applicationId = "com.getraid.tachiyomiocr"
         versionCode = AndroidVersions.versionCode
         versionName = AndroidVersions.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -168,6 +170,9 @@ dependencies {
     implementation("androidx.multidex:multidex:2.0.1")
 
     implementation(platform("com.google.firebase:firebase-bom:31.2.3"))
+    implementation("com.google.firebase:firebase-core:21.1.0")
+    implementation("com.google.firebase:firebase-analytics-ktx:21.1.0")
+    implementation("androidx.room:room-common:2.4.3")
 
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
@@ -295,6 +300,15 @@ dependencies {
 
     // Android Chart
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+     // OCR
+    implementation("cz.adaptech:tesseract4android:3.0.0")
+    implementation("androidx.room:room-runtime:2.4.3")
+    kapt("androidx.room:room-compiler:2.4.3")
+    implementation("androidx.room:room-ktx:2.4.3")
+    implementation("com.github.rattlehead15:kaku:master-SNAPSHOT")
+    implementation("com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava")
+    implementation("com.github.ankidroid:Anki-Android:api-v1.1.0")
 }
 
 tasks {
@@ -344,6 +358,15 @@ tasks {
     }
 
     preBuild {
+        // Made this workaround to bypass database corruption through line-ending conversions by different git clients, etc...
+        // Copies everything from AssetFiles.zip into the assets folder.
+        val assetFilesZip="AssetFiles.zip"
+        var outputDir="/app/src/main/assets/"
+        val cwd="$buildDir+/../../"
+
+        if(!File("$cwd/$outputDir/tessdata").exists())
+            unzipTo(File("$cwd/$outputDir"),File("$cwd/$assetFilesZip"))
+
         dependsOn(formatKotlin, copyHebrewStrings)
     }
 }

@@ -45,10 +45,7 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.text.buildSpannedString
 import androidx.core.text.inSpans
 import androidx.core.transition.addListener
-import androidx.core.view.GestureDetectorCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.*
 import androidx.core.view.WindowInsetsCompat.Type.statusBars
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.WindowInsetsControllerCompat
@@ -96,6 +93,9 @@ import eu.kanade.tachiyomi.ui.reader.settings.PageLayout
 import eu.kanade.tachiyomi.ui.reader.settings.ReaderBottomButton
 import eu.kanade.tachiyomi.ui.reader.settings.ReadingModeType
 import eu.kanade.tachiyomi.ui.reader.settings.TabbedReaderSettingsSheet
+import eu.kanade.tachiyomi.ui.reader.translator.OCRManager
+import eu.kanade.tachiyomi.ui.reader.translator.OCRRectangleView
+import eu.kanade.tachiyomi.ui.reader.translator.OCRTranslationSheet
 import eu.kanade.tachiyomi.ui.reader.viewer.BaseViewer
 import eu.kanade.tachiyomi.ui.reader.viewer.pager.L2RPagerViewer
 import eu.kanade.tachiyomi.ui.reader.viewer.pager.PagerViewer
@@ -127,6 +127,7 @@ import eu.kanade.tachiyomi.util.system.rootWindowInsetsCompat
 import eu.kanade.tachiyomi.util.system.spToPx
 import eu.kanade.tachiyomi.util.system.toast
 import eu.kanade.tachiyomi.util.system.withUIContext
+import eu.kanade.tachiyomi.util.system.*
 import eu.kanade.tachiyomi.util.view.collapse
 import eu.kanade.tachiyomi.util.view.compatToolTipText
 import eu.kanade.tachiyomi.util.view.doOnApplyWindowInsetsCompat
@@ -621,6 +622,12 @@ class ReaderActivity : BaseActivity<ReaderActivityBinding>() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.action_dictionary -> {
+                OCRTranslationSheet(this).show()
+            }
+            R.id.action_ocr -> {
+                getOCRRect()
+            }
             R.id.action_shift_double_page -> {
                 shiftDoublePages()
                 manuallyShiftedPages = true
@@ -628,6 +635,30 @@ class ReaderActivity : BaseActivity<ReaderActivityBinding>() {
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+    private fun getOCRRect() {
+        toggleMenu()
+        val ocrRectangleView = findViewById<OCRRectangleView>(R.id.ocr_rectangle)
+        ocrRectangleView.isVisible = true
+        ocrRectangleView.longTapCallback = {
+            ocrRectangleView.isVisible = false
+            toast("Processing OCR...")
+            val b = Bitmap.createBitmap(
+                viewer!!.getView().drawToBitmap(Bitmap.Config.ARGB_8888),
+                it.left.toInt(),
+                it.top.toInt(),
+                it.width().toInt(),
+                it.height().toInt(),
+            )
+            launchIO { startOCR(b) }
+        }
+    }
+
+    private fun startOCR(b: Bitmap) {
+        val ocrManager = OCRManager(applicationContext)
+        val result = ocrManager.recognize(b)
+        val activity = this
+        launchUI { OCRTranslationSheet(activity, result).show() }
     }
 
     fun shiftDoublePages(forceShift: Boolean? = null, page: ReaderPage? = null) {

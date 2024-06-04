@@ -1,6 +1,7 @@
 package eu.kanade.tachiyomi.ui.setting
 
 import android.app.ActivityManager
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -9,7 +10,9 @@ import androidx.preference.PreferenceScreen
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.SimpleSwapChangeHandler
+import com.ichi2.anki.api.AddContentApi.READ_WRITE_PERMISSION
 import eu.kanade.tachiyomi.R
+import eu.kanade.tachiyomi.data.preference.PreferencesHelper
 import eu.kanade.tachiyomi.ui.main.FloatingSearchInterface
 import eu.kanade.tachiyomi.ui.more.AboutController
 import eu.kanade.tachiyomi.ui.setting.search.SettingsSearchController
@@ -17,7 +20,9 @@ import eu.kanade.tachiyomi.util.system.getResourceColor
 import eu.kanade.tachiyomi.util.view.activityBinding
 import eu.kanade.tachiyomi.util.view.fadeTransactionHandler
 import eu.kanade.tachiyomi.util.view.openInBrowser
+import eu.kanade.tachiyomi.util.view.checkAnkiPermissions
 import eu.kanade.tachiyomi.util.view.withFadeTransaction
+import uy.kohesive.injekt.injectLazy
 
 class SettingsMainController : SettingsController(), FloatingSearchInterface {
 
@@ -26,6 +31,7 @@ class SettingsMainController : SettingsController(), FloatingSearchInterface {
     }
 
     override fun setupPreferenceScreen(screen: PreferenceScreen) = with(screen) {
+        val preferences: PreferencesHelper by injectLazy()
         titleRes = R.string.settings
 
         val tintColor = context.getResourceColor(R.attr.colorSecondary)
@@ -85,6 +91,18 @@ class SettingsMainController : SettingsController(), FloatingSearchInterface {
             onClick { navigateTo(SettingsSecurityController()) }
         }
         preference {
+            iconRes = R.drawable.ic_ocr_24dp
+            iconTint = tintColor
+            titleRes = R.string.pref_category_ocr
+            onClick {
+                if (context.checkSelfPermission(READ_WRITE_PERMISSION) != PERMISSION_GRANTED) {
+                    checkAnkiPermissions(READ_WRITE_PERMISSION, 444)
+                } else {
+                    navigateTo(SettingsOCRController())
+                }
+            }
+        }
+        preference {
             iconRes = R.drawable.ic_code_24dp
             iconTint = tintColor
             titleRes = R.string.advanced
@@ -109,6 +127,10 @@ class SettingsMainController : SettingsController(), FloatingSearchInterface {
             R.id.action_help -> openInBrowser(URL_HELP)
         }
         return super.onOptionsItemSelected(item)
+    // override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    //     if (requestCode == 444 && grantResults[0] == PERMISSION_GRANTED) {
+    //         navigateTo(SettingsOCRController())
+    //     }
     }
 
     override fun onActionViewExpand(item: MenuItem?) {

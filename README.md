@@ -1,13 +1,43 @@
-| Download | Contribute | Support Server |
-|-------|----------|---------|
-| [![release](https://img.shields.io/github/release/jays2kings/tachiyomi.svg?maxAge=3600&label=download)](https://github.com/jays2kings/tachiyomiJ2K/releases) | [![Translation status](https://hosted.weblate.org/widgets/tachiyomi/-/tachiyomi-j2k/svg-badge.svg)](https://hosted.weblate.org/engage/tachiyomi/?utm_source=widget) | [![Discord](https://img.shields.io/discord/349436576037732353.svg?label=discord&labelColor=7289da&color=2c2f33&style=flat)](https://discord.gg/tachiyomi) |
+| Download |
+|-------|
+| [![release](https://img.shields.io/github/release/getraid/tachiyomiJ2K-OCR.svg?maxAge=3600&label=download)](https://github.com/getraid/tachiyomiJ2K-OCR/releases)|
 
 
-# ![app icon](./.github/readme-images/app-icon.png)TachiyomiJ2K
-TachiyomiJ2K is a free and open source manga reader for Android 6.0 and above. Based on the original [Tachiyomi](https://github.com/tachiyomiorg/tachiyomi)
+# ![app icon](./.github/readme-images/app-icon.png)TachiyomiJ2K OCR
+TachiyomiJ2K OCR is a free and open source manga reader for Android 6.0 and above.  
+This is a fork of the [J2K repository](https://github.com/Jays2Kings/tachiyomiJ2K), which also is based on the original [Tachiyomi project](https://github.com/tachiyomiorg/tachiyomi).  
+This specific fork *borrowed* some code off the outdated [previous OCR Fork](https://github.com/Rattlehead15/tachiyomiOCR)
 
 ![screenshots of app](./.github/readme-images/screens.gif)
 
+
+## About this Fork
+I was looking into this app and found it quite nice. I'm not much of a manga reader myself, but thought this could be a superb opportunity to improve my japanese.  
+...or at least so I thought. Japanese manga providers are a thing, but everything is either written exclusively in kanji or is tedious to translate *on the fly*.  
+So I searched for a bit and found [this ocr repository](https://github.com/Rattlehead15/tachiyomiOCR).  
+But it is outdated and very troublesome to merge, so I thought - f**k it, I'll just reimplement it again and hope I can manage to keep it updated enough, so that it doesn't break.  
+
+I chose the preexisting J2K fork as a base, since the original version had many changes which were even worse to deal with.  
+Plus the design is also much cleaner!
+
+**Attention**: This requires AnkiDroid to be installed on your device. Later on I'll maybe make it optional.  
+
+Current Status:  
+- [x] Compilable
+- [x] Gets the correct permissions
+- [x] Gets into settings page
+- [x] Shows the settings
+- [x] Checks if Anki is installed
+- [x] OCR Button is visible (needs check for white/dark mode)
+- [x] OCR works
+- [x] Word lookup works
+- [ ] Settings fully working
+- [ ] Anki fully integrated
+- [ ] Redesign UI / interaction (annoying to access ocr)
+
+**Overall Status**: ✔️ (Anki integration & Settings don't work yet)
+
+Once a working status is achieved, a build will be released under the [releases page](https://github.com/getraid/tachiyomiJ2K-OCR/releases).
 ## Features
 
 Features of Tachiyomi include:
@@ -42,39 +72,13 @@ Plus some new features in this fork such as:
 
 ## Issues, Feature Requests and Contributing
 
-Please make sure to read the full guidelines. Your issue may be closed without warning if you do not.
+Please look into the originial J2K repository for everything that is not specifically targeted to this project.
+For everything else: Feel free to contribute, post issues, etc...
 
-<details><summary>Issues</summary>
+## Feature Requests
 
-1. **Before reporting a new issue, take a look at the [FAQ](https://github.com/tachiyomiorg/tachiyomi/wiki/FAQ), the [changelog](https://github.com/jays2kings/tachiyomi/releases) and the already opened [issues](https://github.com/tachiyomiorg/tachiyomi/issues).**
-2. If you are unsure, ask here: [![Discord](https://img.shields.io/discord/349436576037732353.svg)](https://discord.gg/tachiyomi)
-
-</details>
-
-<details><summary>Bugs</summary>
-
-* Include version (Setting > About > Version)
- * If not latest, try updating, it may have already been solved
- * Dev version is equal to the number of commits as seen in the main page
-* Include steps to reproduce (if not obvious from description)
-* Include screenshot (if needed)
-* If it could be device-dependent, try reproducing on another device (if possible)
-* For large logs use http://pastebin.com/ (or similar)
-* Don't group unrelated requests into one issue
-
-DO: https://github.com/tachiyomiorg/tachiyomi/issues/24 https://github.com/tachiyomiorg/tachiyomi/issues/71
-
-DON'T: https://github.com/tachiyomiorg/tachiyomi/issues/75
-
-</details>
-
-<details><summary>Feature Requests</summary>
-
-* Write a detailed issue, explaning what it should do or how. Avoid writing just "like X app does"
-* Include screenshot (if needed)
-
-Source requests should be created at https://github.com/tachiyomiorg/tachiyomi-extensions, they do not belong in this repository.
-</details>
+If you have some general feature requests, again please head to the original J2k repo.
+For specific improvements to this fork, lemme hear 'em! :)
 
 ## FAQ
 
